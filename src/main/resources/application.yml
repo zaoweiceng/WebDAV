@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: WebDAV
+  datasource:
+    druid:
+      url: jdbc:h2:file:./info;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+      test-while-idle: true
+      validation-query: SELECT 1
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+#      data-locations: classpath:data.sql
+      mode: always
+  jpa:
+    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+
+mybatis-plus:
+  type-aliases-package: cn.webdav.pojo.entity
+
+server:
+  port: 8080
+
+
+webdav:
+  jwt:
+    user-secret: "webdav_web_user_secret"
+    webdav-secret: "webdav_client_user_secret"
+    expire: 7200000
+
+  depth: 3

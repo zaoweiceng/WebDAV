@@ -1,0 +1,50 @@
+package cn.webdav.pojo.webdav;
+
+import cn.webdav.pojo.webdav.lock.LockDiscovery;
+import cn.webdav.pojo.webdav.lock.SupportedLock;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.*;
+
+@Data
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@JacksonXmlRootElement(localName  = "include")
+public class Include {
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(localName = "displayname", namespace = "DAV:")
+    private String displayName;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(localName = "getcontentlength", namespace = "DAV:")
+    private Long getcontentlength;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(localName = "author", namespace = "DAV:")
+    private String author;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(localName = "creationdate", namespace = "DAV:")
+    private String creationdate;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(localName = "getcontentlanguage", namespace = "DAV:")
+    private String getcontentlanguage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(localName = "getcontenttype", namespace = "DAV:")
+    private String getcontenttype;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(localName = "getetag", namespace = "DAV:")
+    private String getetag;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(localName = "getlastmodified", namespace = "DAV:")
+    private String getlastmodified;
+}
