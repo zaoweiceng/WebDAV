@@ -3,6 +3,7 @@ package cn.webdav.config;
 import cn.webdav.interceptor.JwtTokenAdminInterceptor;
 import cn.webdav.interceptor.WebDAVJwtTokenInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.interceptor.CustomizableTraceInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,7 +48,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     }
 
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/doc").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 

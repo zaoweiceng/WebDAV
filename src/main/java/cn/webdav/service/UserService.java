@@ -12,4 +12,10 @@ public interface UserService extends IService<User> {
     String getGroupById();
 
     String assignWebDAVToken();
+
+    Boolean setUserStatus(Integer status);
+
+    Boolean registerUser(User user);
+
+    Boolean deleteById(Long id);
 }

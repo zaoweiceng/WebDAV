@@ -11,7 +11,7 @@ public class PropTest {
     public void test(){
         Prop prop = Prop.builder()
                 .displayName("displayName")
-                .getcontentlength(100)
+                .getcontentlength(100L)
                 .build();
         XmlMapper xmlMapper = new XmlMapper();
         try {

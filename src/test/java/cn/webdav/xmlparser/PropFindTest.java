@@ -13,7 +13,6 @@ public class PropFindTest {
     PropFind prop = PropFind.builder()
             .allprop(new Allprop())
             .include(Include.builder()
-                    .displayname("")
                     .build()
             )
             .build();

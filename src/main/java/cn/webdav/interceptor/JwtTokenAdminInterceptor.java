@@ -3,6 +3,7 @@ package cn.webdav.interceptor;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTHeader;
 import cn.hutool.jwt.JWTUtil;
+import cn.webdav.common.constant.UserConstant;
 import cn.webdav.common.properties.JwtProperties;
 import cn.webdav.common.utils.BaseContext;
 import cn.webdav.exception.LoginFailedException;
@@ -32,21 +33,21 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         }
 
         //1、从请求头中获取令牌
-        String token = request.getHeader("token");
+        String token = request.getHeader(UserConstant.USER_JWT_HEADER);
 
         //2、校验令牌
         try {
             boolean validate = JWTUtil.verify(token, jwtProperties.getUserSecret().getBytes(StandardCharsets.UTF_8));
             if (!validate) {
-                throw new LoginFailedException("登录令牌不合法");
+                throw new LoginFailedException(UserConstant.USER_JWT_INVALIDATED);
             }
 
             JWT jwt = JWTUtil.parseToken(token);
             boolean expired = jwt.setKey(jwtProperties.getUserSecret().getBytes(StandardCharsets.UTF_8)).validate(0);
             if (!expired) {
-                throw new LoginFailedException("登录已过期");
+                throw new LoginFailedException(UserConstant.USER_JWT_EXPIRED);
             }
-            Long userId =  Long.valueOf(jwt.getPayload("userId").toString());
+            Long userId =  Long.valueOf(jwt.getPayload(UserConstant.USER_WEBDAV_JWT_PAYLOAD_ID).toString());
             // ThreadLocal设置当前登录用户id
             BaseContext.setCurrentId(userId);
             //3、通过，放行

@@ -8,13 +8,12 @@ import cn.webdav.pojo.webdav.lock.LockType;
 import cn.webdav.pojo.webdav.lock.Write;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import jakarta.xml.bind.JAXBException;
 import org.junit.Test;
 
 public class ActivelockTest {
 
     @Test
-    public void test() throws JAXBException, JsonProcessingException {
+    public void test() throws JsonProcessingException {
         ActiveLock activeLock = ActiveLock.builder()
                 .lockscope(LockScope.Shared())
                 .locktype(LockType.builder()

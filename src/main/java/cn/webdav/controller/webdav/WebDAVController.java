@@ -9,6 +9,7 @@ import cn.webdav.common.properties.WebDAVProperties;
 import cn.webdav.common.result.WebDAVResult;
 import cn.webdav.common.utils.webdav.ResponseUtil;
 import cn.webdav.pojo.entity.WebDAVHttpEntity;
+import cn.webdav.pojo.entity.WebDAVResponse;
 import cn.webdav.service.WebDAVService;
 import cn.webdav.vfs.FileSystem;
 import io.swagger.annotations.Api;
@@ -91,22 +92,62 @@ public class WebDAVController {
             webDAVHttpEntity.setDepth(String.valueOf(webDAVProperties.getDepth()));
         }
         response.setContentType(MediaTypeConstant.TEXT_XML_UTF8);
-        return switch (request.getMethod()) {
-            case WebDAVMethodsConstant.PROPFIND -> WebDAVResult.Response(webDAVService.PropFind(webDAVHttpEntity));
-            case WebDAVMethodsConstant.PROPPATCH ->
-                    WebDAVResult.Response(webDAVService.PropPatch(webDAVHttpEntity));
-            case WebDAVMethodsConstant.MKCOL -> WebDAVResult.Response(webDAVService.MkCol(webDAVHttpEntity));
-            case WebDAVMethodsConstant.GET -> WebDAVResult.Response(webDAVService.Get(webDAVHttpEntity));
-            case WebDAVMethodsConstant.HEAD -> WebDAVResult.Response(webDAVService.Head(webDAVHttpEntity));
-            case WebDAVMethodsConstant.POST -> WebDAVResult.Response(webDAVService.Post(webDAVHttpEntity));
-            case WebDAVMethodsConstant.DELETE -> WebDAVResult.Response(webDAVService.Delete(webDAVHttpEntity));
-            case WebDAVMethodsConstant.PUT -> WebDAVResult.Response(webDAVService.Put(webDAVHttpEntity));
-            case WebDAVMethodsConstant.COPY -> WebDAVResult.Response(webDAVService.Copy(webDAVHttpEntity));
-            case WebDAVMethodsConstant.MOVE -> WebDAVResult.Response(webDAVService.Move(webDAVHttpEntity));
-            case WebDAVMethodsConstant.LOCK -> WebDAVResult.Response(webDAVService.Lock(webDAVHttpEntity));
-            case WebDAVMethodsConstant.UNLOCK -> WebDAVResult.Response(webDAVService.Unlock(webDAVHttpEntity));
-            default -> "";
-        };
+        WebDAVResponse webDAVResponse;
+        switch (request.getMethod()) {
+            case WebDAVMethodsConstant.PROPFIND:
+                webDAVResponse = webDAVService.PropFind(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.PROPPATCH:
+                webDAVResponse = webDAVService.PropPatch(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.MKCOL:
+                webDAVResponse = webDAVService.MkCol(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.GET:
+                webDAVResponse = webDAVService.Get(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.HEAD:
+                webDAVResponse = webDAVService.Head(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.POST:
+                webDAVResponse = webDAVService.Post(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.DELETE:
+                webDAVResponse = webDAVService.Delete(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.PUT:
+                webDAVResponse = webDAVService.Put(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+
+            case WebDAVMethodsConstant.COPY:
+                webDAVResponse = webDAVService.Copy(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.MOVE:
+                webDAVResponse = webDAVService.Move(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.LOCK:
+                webDAVResponse = webDAVService.Lock(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            case WebDAVMethodsConstant.UNLOCK:
+                webDAVResponse = webDAVService.Unlock(webDAVHttpEntity);
+                response.setStatus(webDAVResponse.getStatusCode());
+                return WebDAVResult.Response(webDAVResponse.getBody());
+            default:
+                response.setStatus(405);
+                return "";
+        }
+
     }
 
     private boolean authMethod(HttpServletRequest request, HttpServletResponse response){

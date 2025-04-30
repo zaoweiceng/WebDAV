@@ -31,7 +31,7 @@ public class MultiStatusTest {
                                         .propstat(PropStat.builder()
                                                 .prop(Prop.builder()
                                                         .displayName("index.html")
-                                                        .getcontentlength(1024)
+                                                        .getcontentlength(1024L)
                                                         .author("webdav")
                                                         .creationdate("2021-01-01T00:00:00Z")
                                                         .getcontentlanguage(LanguageConstant.CHINESE_CHINA)

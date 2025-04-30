@@ -2,6 +2,7 @@ package cn.webdav.service;
 
 import cn.webdav.common.result.WebDAVResult;
 import cn.webdav.pojo.entity.WebDAVHttpEntity;
+import cn.webdav.pojo.entity.WebDAVResponse;
 
 public interface WebDAVService {
 
@@ -9,27 +10,27 @@ public interface WebDAVService {
 
     boolean authWebDAVPath(String path);
 
-    Object PropFind(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse PropFind(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object PropPatch(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse PropPatch(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object MkCol(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse MkCol(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Get(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Get(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Head(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Head(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Post(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Post(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Delete(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Delete(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Put(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Put(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Copy(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Copy(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Move(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Move(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Lock(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Lock(WebDAVHttpEntity webDAVHttpEntity);
 
-    Object Unlock(WebDAVHttpEntity webDAVHttpEntity);
+    WebDAVResponse Unlock(WebDAVHttpEntity webDAVHttpEntity);
 }

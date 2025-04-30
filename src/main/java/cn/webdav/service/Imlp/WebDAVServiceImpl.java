@@ -14,6 +14,7 @@ import cn.webdav.mapper.UserMapper;
 import cn.webdav.pojo.entity.SelectedProp;
 import cn.webdav.pojo.entity.User;
 import cn.webdav.pojo.entity.WebDAVHttpEntity;
+import cn.webdav.pojo.entity.WebDAVResponse;
 import cn.webdav.pojo.webdav.*;
 import cn.webdav.service.WebDAVService;
 import cn.webdav.vfs.FileSystem;
@@ -39,9 +40,12 @@ public class WebDAVServiceImpl extends ServiceImpl<UserMapper, User> implements 
     private PropUtil propUtil;
 
     @Override
-    public Object PropFind(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse PropFind(WebDAVHttpEntity webDAVHttpEntity) {
         if (!authWebDAVPath(webDAVHttpEntity.getPath())){
-            return ResponseUtil.UnAuthorizedResponse(webDAVHttpEntity.getPath());
+            return WebDAVResponse.builder()
+                    .statusCode(401)
+                    .body(ResponseUtil.UnAuthorizedResponse(webDAVHttpEntity.getPath()))
+                    .build();
         }
         boolean allprop = true;
         PropFind parsed = null;
@@ -63,7 +67,10 @@ public class WebDAVServiceImpl extends ServiceImpl<UserMapper, User> implements 
         if (fs.isDirectory(webDAVHttpEntity.getPath())){
             List<String> fileList = fs.getFileList(webDAVHttpEntity.getPath());
             if (fileList.size() <= 0){
-                return ResponseUtil.NotFoundResponse(webDAVHttpEntity.getPath());
+                return WebDAVResponse.builder()
+                        .statusCode(404)
+                        .body(ResponseUtil.NotFoundResponse(webDAVHttpEntity.getPath()))
+                        .build();
             }else{
                 MultiStatus multiStatus = new MultiStatus();
                 multiStatus.setResponse(new ArrayList<Response>());
@@ -71,77 +78,89 @@ public class WebDAVServiceImpl extends ServiceImpl<UserMapper, User> implements 
                         Integer.valueOf(webDAVHttpEntity.getDepth()),
                         selectedProp,
                         multiStatus);
-                return multiStatus;
+                return WebDAVResponse.builder()
+                        .statusCode(207)
+                        .body(multiStatus)
+                        .build();
             }
 
         }else if (fs.isFile(webDAVHttpEntity.getPath())){
             if (allprop){
-                return ResponseUtil.buildResponse(
-                        webDAVHttpEntity.getPath(),
-                        propUtil.getAllProp(webDAVHttpEntity.getPath())
-                        );
+                return WebDAVResponse.builder()
+                        .statusCode(200)
+                        .body(ResponseUtil.buildResponse(
+                                webDAVHttpEntity.getPath(),
+                                propUtil.getAllProp(webDAVHttpEntity.getPath())
+                        ))
+                        .build();
             }else{
-                return ResponseUtil.buildResponse(
-                        webDAVHttpEntity.getPath(),
-                        propUtil.getProp(webDAVHttpEntity.getPath(), selectedProp)
-                );
+                return WebDAVResponse.builder()
+                        .statusCode(200)
+                        .body(ResponseUtil.buildResponse(
+                                webDAVHttpEntity.getPath(),
+                                propUtil.getProp(webDAVHttpEntity.getPath(), selectedProp)
+                        ))
+                        .build();
             }
         }
-        return ResponseUtil.NotFoundResponse(webDAVHttpEntity.getPath());
+        return WebDAVResponse.builder()
+                .statusCode(404)
+                .body(ResponseUtil.NotFoundResponse(webDAVHttpEntity.getPath()))
+                .build();
     }
 
     @Override
-    public Object PropPatch(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse PropPatch(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object MkCol(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse MkCol(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Get(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Get(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Head(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Head(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Post(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Post(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Delete(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Delete(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Put(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Put(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Copy(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Copy(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Move(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Move(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Lock(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Lock(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 
     @Override
-    public Object Unlock(WebDAVHttpEntity webDAVHttpEntity) {
+    public WebDAVResponse Unlock(WebDAVHttpEntity webDAVHttpEntity) {
         return null;
     }
 

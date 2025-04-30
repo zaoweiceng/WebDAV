@@ -2,6 +2,7 @@ package cn.webdav.controller.user;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.webdav.common.result.Result;
+import cn.webdav.pojo.dto.UserDTO;
 import cn.webdav.pojo.dto.UserLoginDTO;
 import cn.webdav.pojo.entity.User;
 import cn.webdav.pojo.vo.UserLoginVO;
@@ -33,15 +34,28 @@ public class UserController {
         return Result.success(userService.getGroupById());
     }
 
-    @GetMapping(value = "/assignWebDAVToken/", produces = "application/json")
+    @GetMapping(value = "/assignWebDAVToken", produces = "application/json")
     @ApiOperation(value = "分配WebDAVToken")
     public Result<String> assignWebDAVToken() {
         return Result.success(userService.assignWebDAVToken());
     }
 
-    // TODO: 设置当前用户webdav的可用状态，POST
+    @PutMapping(value = "/status/{status}", produces = "application/json")
+    @ApiOperation(value = "设置当前用户webdav的可用状态")
+    public Result<Boolean> setUserStatus(@PathVariable Integer status) {
+        return Result.success(userService.setUserStatus(status));
+    }
 
-    // TODO: 新增用户，仅当前用户为管理员的情况下可新增
+    @PostMapping(value = "/register", produces = "application/json")
+    @ApiOperation(value = "用户注册")
+    public Result<Boolean> register(@RequestBody UserDTO userDTO) {
+        return Result.success(userService.registerUser(BeanUtil.copyProperties(userDTO, User.class)));
+    }
 
     // TODO: 删除用户
+    @DeleteMapping(value = "/delete/{id}", produces = "application/json")
+    @ApiOperation(value = "删除用户")
+    public Result<Boolean> deleteUser(@PathVariable Long id) {
+        return Result.success(userService.deleteById(id));
+    }
 }
